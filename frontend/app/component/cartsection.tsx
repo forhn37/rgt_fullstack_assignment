@@ -2,17 +2,19 @@
 import React from 'react';
 
 interface Order {
+  orderNumber: number;
   food: string;
   quantity: number;
+  category: 'chinese' | 'italian' | 'korean';
 }
 
 interface CartsectionProps {
   cartItems: Order[];
   clearCart: () => void;
-  removeFromCart: (index: number) => void;
+  onSubmitOrder: (completedOrders: Order[]) => void;
 }
 
-export default function Cartsection({ cartItems, clearCart, removeFromCart }: CartsectionProps) {
+export default function Cartsection({ cartItems, clearCart, onSubmitOrder }: CartsectionProps) {
   const sendOrderToBackend = async () => {
     try {
       const response = await fetch('http://localhost:8000/order', {
@@ -27,8 +29,10 @@ export default function Cartsection({ cartItems, clearCart, removeFromCart }: Ca
         throw new Error('Failed to send order');
       }
 
+      // 주문 전송 성공 시 주문 내역을 히스토리에 추가
+      onSubmitOrder(cartItems);
       alert('주문이 성공적으로 전송되었습니다!');
-      clearCart();
+      clearCart(); // 장바구니 비우기
     } catch (error) {
       console.error('Error sending order:', error);
       alert('주문 전송 중 오류가 발생했습니다.');
@@ -45,12 +49,6 @@ export default function Cartsection({ cartItems, clearCart, removeFromCart }: Ca
               <span>{item.food}</span>
               <span> - {item.quantity}개</span>
             </div>
-            <button
-              onClick={() => removeFromCart(index)}
-              className="text-red-500 hover:text-red-700 ml-4"
-            >
-              삭제
-            </button>
           </li>
         ))}
       </ul>

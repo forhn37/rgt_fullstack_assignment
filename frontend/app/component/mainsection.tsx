@@ -3,53 +3,82 @@
 import React from 'react';
 import Image from 'next/image';
 
-interface MainsectionProps {
-  selectedCategory: string;
-  openModal: (itemName: string, imageSrc: string) => void;
+interface Order {
+  orderNumber: number;
+  food: string;
+  quantity: number;
+  category: 'chinese' | 'italian' | 'korean';
 }
 
-export default function Mainsection({ selectedCategory, openModal }: MainsectionProps) {
-  const images: { [key: string]: { src: string; name: string }[] } = {
+interface MainsectionProps {
+  selectedCategory: string;
+  orderHistory: Order[];
+  openModal: (itemName: string, imageSrc: string, category: 'chinese' | 'italian' | 'korean') => void;
+}
+
+export default function Mainsection({ selectedCategory, orderHistory, openModal }: MainsectionProps) {
+  const menuItems = {
     chinese: [
-      { src: '/images/chinese1.jpg', name: 'Chinese Food 1' },
-      { src: '/images/chinese2.jpg', name: 'Chinese Food 2' },
-      { src: '/images/chinese3.jpg', name: 'Chinese Food 3' },
-      { src: '/images/chinese4.jpg', name: 'Chinese Food 4' },
-      { src: '/images/chinese5.jpg', name: 'Chinese Food 5' },
-      { src: '/images/chinese6.jpg', name: 'Chinese Food 6' },
+      { name: 'Chinese Food 1', image: '/images/chinese1.jpg' },
+      { name: 'Chinese Food 2', image: '/images/chinese2.jpg' },
     ],
     italian: [
-      { src: '/images/italian1.jpg', name: 'Italian Food 1' },
-      { src: '/images/italian2.jpg', name: 'Italian Food 2' },
-      { src: '/images/italian3.jpg', name: 'Italian Food 3' },
-      { src: '/images/italian4.jpg', name: 'Italian Food 4' },
-      { src: '/images/italian5.jpg', name: 'Italian Food 5' },
-      { src: '/images/italian6.jpg', name: 'Italian Food 6' },
+      { name: 'Italian Food 1', image: '/images/italian1.jpg' },
+      { name: 'Italian Food 2', image: '/images/italian2.jpg' },
     ],
     korean: [
-      { src: '/images/korean1.jpg', name: 'Korean Food 1' },
-      { src: '/images/korean2.jpg', name: 'Korean Food 2' },
-      { src: '/images/korean3.jpg', name: 'Korean Food 3' },
-      { src: '/images/korean4.jpg', name: 'Korean Food 4' },
-      { src: '/images/korean5.jpg', name: 'Korean Food 5' },
-      { src: '/images/korean6.jpg', name: 'Korean Food 6' },
+      { name: 'Korean Food 1', image: '/images/korean1.jpg' },
+      { name: 'Korean Food 2', image: '/images/korean2.jpg' },
     ],
-    orders: [],
   };
+
+  if (selectedCategory === 'orders') {
+    // 주문 내역을 테이블 형식으로 렌더링
+    const categories = ['chinese', 'italian', 'korean'] as const;
+
+    return (
+      <div className="p-6">
+        <h2 className="text-2xl font-bold mb-4">주문 내역</h2>
+        {categories.map((category) => (
+          <div key={category} className="mb-8">
+            <h3 className="text-xl font-semibold mb-2">
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </h3>
+            <table className="w-full border-collapse border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="border p-2">주문 번호</th>
+                  <th className="border p-2">메뉴명</th>
+                  <th className="border p-2">수량</th>
+                  <th className="border p-2">상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderHistory
+                  .filter((order) => order.category === category)
+                  .map((order) => (
+                    <tr key={order.orderNumber}>
+                      <td className="border p-2">{order.orderNumber}</td>
+                      <td className="border p-2">{order.food}</td>
+                      <td className="border p-2">{order.quantity}</td>
+                      <td className="border p-2">대기 중</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">{selectedCategory}</h2>
+      <h2 className="text-2xl font-bold mb-4">{selectedCategory} 메뉴</h2>
       <div className="grid grid-cols-2 gap-4">
-        {images[selectedCategory]?.map((item, index) => (
-          <div key={index} onClick={() => openModal(item.name, item.src)} className="cursor-pointer">
-            <Image
-              src={item.src}
-              width={1290}
-              height={1290}
-              alt={item.name}
-              className="w-full h-48 object-cover rounded-lg shadow"
-            />
+        {menuItems[selectedCategory]?.map((item, index) => (
+          <div key={index} onClick={() => openModal(item.name, item.image, selectedCategory as 'chinese' | 'italian' | 'korean')}>
+            <Image src={item.image} alt={item.name} width={150} height={150} className="object-cover rounded-lg shadow" />
             <p className="text-center mt-2">{item.name}</p>
           </div>
         ))}
