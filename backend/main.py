@@ -46,7 +46,7 @@ async def create_order(orders: List[Order]):
     # 각 주문 데이터를 임시 저장소에 추가
     for order in orders:
         order_data: Dict[str, Union[int, str]] = {
-            "order_number": order.orderNumber,
+            "orderNumber": order.orderNumber,
             "food": order.food,
             "quantity": order.quantity,
             "category": order.category

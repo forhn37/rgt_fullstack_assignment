@@ -11,6 +11,7 @@ import { Order } from './mainsection';
 
 function Dashboard() {
   const [orders, setOrders] = useState<Order[]>([]); // State 타입 정의
+  console.log(orders)
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
