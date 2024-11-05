@@ -1,12 +1,11 @@
-"use client"; 
 import React from 'react';
 
 interface SidebarProps {
-  setSelectedCategory: (category: string) => void;
+  setSelectedCategory: (category: 'chinese' | 'italian' | 'korean' | 'orders') => void;
 }
 
 export default function Sidebar({ setSelectedCategory }: SidebarProps) {
-  const categories = ['chinese', 'italian', 'korean', 'orders'];
+  const categories: Array<'chinese' | 'italian' | 'korean' | 'orders'> = ['chinese', 'italian', 'korean', 'orders'];
 
   return (
     <div className="bg-gray-100 p-4 space-y-4">
@@ -16,7 +15,7 @@ export default function Sidebar({ setSelectedCategory }: SidebarProps) {
           onClick={() => setSelectedCategory(category)}
           className="w-full text-left p-2 hover:bg-gray-300 rounded"
         >
-          {category}
+          {category.charAt(0).toUpperCase() + category.slice(1)}
         </button>
       ))}
     </div>

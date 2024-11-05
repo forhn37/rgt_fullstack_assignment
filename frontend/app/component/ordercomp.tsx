@@ -15,15 +15,18 @@ interface Order {
 }
 
 export default function Order() {
-  //3개의 카테고리 중 선택 상태
-  const [selectedCategory, setSelectedCategory] = useState<string>('chinese');
-  //카트에 담은 주문내역 상태
+  // 3개의 카테고리 중 선택 상태
+  const [selectedCategory, setSelectedCategory] = useState<'chinese' | 'italian' | 'korean' | 'orders'>('chinese');
+  
+  // 카트에 담은 주문내역 상태
   const [cartItems, setCartItems] = useState<Order[]>([]);
-  //모달 open bool
+  
+  // 모달 open 상태
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  //
   const [selectedItem, setSelectedItem] = useState<{ name: string; image: string; category: 'chinese' | 'italian' | 'korean' } | null>(null);
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
+
+  // 카테고리별 주문 번호 초기값
   const orderCounters = { chinese: 1000, italian: 2000, korean: 3000 };
 
   const openModal = (itemName: string, imageSrc: string, category: 'chinese' | 'italian' | 'korean') => {
@@ -41,7 +44,7 @@ export default function Order() {
       setCartItems([
         ...cartItems,
         {
-          orderNumber: 0,
+          orderNumber: 0, // 주문 번호는 주문 시 부여
           food: selectedItem.name,
           quantity,
           category: selectedItem.category,
@@ -54,9 +57,15 @@ export default function Order() {
     setCartItems([]);
   };
 
-  // 주문 내역을 히스토리에 추가하는 함수
+  // 주문 내역을 히스토리에 추가하고 주문 번호를 부여하는 함수
   const addToHistory = (completedOrders: Order[]) => {
-    setOrderHistory([...orderHistory, ...completedOrders]);
+    const updatedOrders = completedOrders.map((order) => {
+      // 카테고리에 맞는 주문 번호를 부여하고 증가시킴
+      const newOrderNumber = orderCounters[order.category]++;
+      return { ...order, orderNumber: newOrderNumber };
+    });
+
+    setOrderHistory([...orderHistory, ...updatedOrders]); // 주문 내역 추가
   };
 
   return (
