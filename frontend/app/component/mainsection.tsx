@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-interface Order {
+export interface Order {
   orderNumber: number;
   food: string;
   quantity: number;
