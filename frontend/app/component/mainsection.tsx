@@ -19,8 +19,8 @@ interface MainsectionProps {
 export default function Mainsection({ selectedCategory, orderHistory, openModal }: MainsectionProps) {
   const menuItems = {
     chinese: [
-      { name: 'Chinese Food 1', image: '/images/chinese1.jpg' },
-      { name: 'Chinese Food 2', image: '/images/chinese2.jpg' },
+      { name: 'Chinese Food 1', image: '/jjajangmyun.jpg' },
+      { name: 'Chinese Food 2', image: '/jjamppong.jpg' },
     ],
     italian: [
       { name: 'Italian Food 1', image: '/images/italian1.jpg' },
