@@ -51,7 +51,6 @@ export default function Mainsection({ selectedCategory, orderHistory, openModal 
                   <th className="border p-2">주문 번호</th>
                   <th className="border p-2">메뉴명</th>
                   <th className="border p-2">수량</th>
-                  <th className="border p-2">상태</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,7 +61,6 @@ export default function Mainsection({ selectedCategory, orderHistory, openModal 
                       <td className="border p-2">{order.orderNumber}</td>
                       <td className="border p-2">{order.food}</td>
                       <td className="border p-2">{order.quantity}</td>
-                      <td className="border p-2">대기 중</td>
                     </tr>
                   ))}
               </tbody>

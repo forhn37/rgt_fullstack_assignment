@@ -12,9 +12,10 @@ interface CartsectionProps {
   cartItems: Order[];
   clearCart: () => void;
   onSubmitOrder: (completedOrders: Order[]) => void;
+  updateCartItems: (updatedItems: Order[]) => void; // 새로 추가된 props
 }
 
-export default function Cartsection({ cartItems, clearCart, onSubmitOrder }: CartsectionProps) {
+export default function Cartsection({ cartItems, clearCart, onSubmitOrder, updateCartItems }: CartsectionProps) {
   const sendOrderToBackend = async () => {
     try {
       const response = await fetch('http://localhost:8000/order', {
@@ -39,6 +40,13 @@ export default function Cartsection({ cartItems, clearCart, onSubmitOrder }: Car
     }
   };
 
+  // 장바구니에서 항목 삭제
+  const removeItemFromCart = (index: number) => {
+    const updatedItems = [...cartItems];
+    updatedItems.splice(index, 1);
+    updateCartItems(updatedItems);
+  };
+
   return (
     <div className="bg-gray-50 p-6 h-full">
       <h2 className="text-2xl font-bold mb-4">장바구니</h2>
@@ -49,6 +57,12 @@ export default function Cartsection({ cartItems, clearCart, onSubmitOrder }: Car
               <span>{item.food}</span>
               <span> - {item.quantity}개</span>
             </div>
+            <button
+              onClick={() => removeItemFromCart(index)}
+              className="text-red-500 hover:text-red-700"
+            >
+              삭제
+            </button>
           </li>
         ))}
       </ul>
