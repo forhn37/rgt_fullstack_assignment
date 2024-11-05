@@ -58,7 +58,7 @@ export default function Mainsection({ selectedCategory, orderHistory, openModal 
                 {orderHistory
                   .filter((order) => order.category === category)
                   .map((order) => (
-                    <tr key={`${order.category}-${order.orderNumber}`}>
+                    <tr key={`${order.food}-${order.orderNumber}`}>
                       <td className="border p-2">{order.orderNumber}</td>
                       <td className="border p-2">{order.food}</td>
                       <td className="border p-2">{order.quantity}</td>
