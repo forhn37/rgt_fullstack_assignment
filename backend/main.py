@@ -72,7 +72,6 @@ async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
-            # 클라이언트에서 보낸 메시지를 수신할 수 있지만, 필요하지 않다면 생략 가능
             await websocket.receive_text()
     except WebSocketDisconnect:
         manager.disconnect(websocket)

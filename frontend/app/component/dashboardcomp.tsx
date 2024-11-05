@@ -15,6 +15,10 @@ function Dashboard() {
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8000/ws/dashboard');
 
+    ws.onopen = () => {
+      console.log('WebSocket 연결이 시작되었습니다.');
+    };
+
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
       
