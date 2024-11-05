@@ -11,7 +11,7 @@ interface Order {
 }
 
 interface MainsectionProps {
-  selectedCategory: string;
+  selectedCategory: 'chinese' | 'italian' | 'korean' | 'orders';
   orderHistory: Order[];
   openModal: (itemName: string, imageSrc: string, category: 'chinese' | 'italian' | 'korean') => void;
 }
@@ -31,9 +31,9 @@ export default function Mainsection({ selectedCategory, orderHistory, openModal 
       { name: 'Korean Food 2', image: '/images/korean2.jpg' },
     ],
   };
-
+// 주문 내역을 테이블 형식으로 렌더링
   if (selectedCategory === 'orders') {
-    // 주문 내역을 테이블 형식으로 렌더링
+    // category를 상수선언으로 변경하지 못하도록 설정
     const categories = ['chinese', 'italian', 'korean'] as const;
 
     return (
@@ -42,6 +42,7 @@ export default function Mainsection({ selectedCategory, orderHistory, openModal 
         {categories.map((category) => (
           <div key={category} className="mb-8">
             <h3 className="text-xl font-semibold mb-2">
+              {/* 첫글자 대문자 설정 - 타이틀설정 */}
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </h3>
             <table className="w-full border-collapse border border-gray-300">
@@ -76,7 +77,7 @@ export default function Mainsection({ selectedCategory, orderHistory, openModal 
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">{selectedCategory} 메뉴</h2>
       <div className="grid grid-cols-2 gap-4">
-        {menuItems[selectedCategory]?.map((item, index) => (
+        {menuItems[selectedCategory].map((item, index) => (
           <div key={index} onClick={() => openModal(item.name, item.image, selectedCategory as 'chinese' | 'italian' | 'korean')}>
             <Image src={item.image} alt={item.name} width={150} height={150} className="object-cover rounded-lg shadow" />
             <p className="text-center mt-2">{item.name}</p>

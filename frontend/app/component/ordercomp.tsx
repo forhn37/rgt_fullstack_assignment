@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Mainsection from "./mainsection";
 import Sidebar from "./sidebar";
 import Cartsection from "./cartsection";
-import Modal from "./Modal";
+import Modal from "./modal";
 
 interface Order {
   orderNumber: number;
@@ -15,9 +15,13 @@ interface Order {
 }
 
 export default function Order() {
+  //3개의 카테고리 중 선택 상태
   const [selectedCategory, setSelectedCategory] = useState<string>('chinese');
+  //카트에 담은 주문내역 상태
   const [cartItems, setCartItems] = useState<Order[]>([]);
+  //모달 open bool
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  //
   const [selectedItem, setSelectedItem] = useState<{ name: string; image: string; category: 'chinese' | 'italian' | 'korean' } | null>(null);
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
   const orderCounters = { chinese: 1000, italian: 2000, korean: 3000 };

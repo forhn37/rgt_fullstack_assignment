@@ -1,4 +1,4 @@
-"use client"; // 클라이언트 컴포넌트 선언
+"use client"; 
 import React from 'react';
 
 interface SidebarProps {
@@ -6,7 +6,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ setSelectedCategory }: SidebarProps) {
-  const categories = ['chinese', 'italian', 'korean','orders'];
+  const categories = ['chinese', 'italian', 'korean', 'orders'];
 
   return (
     <div className="bg-gray-100 p-4 space-y-4">
