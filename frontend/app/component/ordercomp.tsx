@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Mainsection from "./mainsection";
 import Sidebar from "./sidebar";
 import Cartsection from "./cartsection";
-import Modal from './modal';
+import Modal from "./modal";
 
 interface Order {
   food: string;
@@ -34,6 +34,16 @@ export default function Order() {
     }
   };
 
+  // 장바구니를 비우는 함수
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
+  // 장바구니 항목 삭제 함수
+  const removeFromCart = (index: number) => {
+    setCartItems(cartItems.filter((_, i) => i !== index));
+  };
+
   return (
     <div className='flex w-4/5'>
       <div className="w-1/6">
@@ -43,7 +53,7 @@ export default function Order() {
         <Mainsection selectedCategory={selectedCategory} openModal={openModal} />
       </div>
       <div className="w-1/6">
-        <Cartsection cartItems={cartItems} />
+        <Cartsection cartItems={cartItems} clearCart={clearCart} removeFromCart={removeFromCart} />
       </div>
       {/* 모달 창 */}
       {selectedItem && (
