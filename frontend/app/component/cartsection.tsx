@@ -25,7 +25,7 @@ export default function Cartsection({ cartItems, clearCart, onSubmitOrder, updat
       // 주문 번호가 업데이트된 데이터를 받아오기
       const ordersWithUpdatedNumbers = onSubmitOrder(cartItems);
 
-      const response = await fetch('http://localhost:8000/order', {
+      const response = await fetch('http://localhost:8000/api/v1/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

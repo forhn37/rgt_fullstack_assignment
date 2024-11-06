@@ -14,7 +14,7 @@ function Dashboard() {
     // 뒤늦게 대시보드를 열었을 경우에도 기존 데이터를 가져오기
     const fetchInitialOrders = async () => {
       try {
-        const response = await fetch('http://localhost:8000/order');
+        const response = await fetch('http://localhost:8000/api/v1/order');
         if (response.ok) {
           const data = await response.json();
           setOrders(data.orders);
@@ -28,7 +28,7 @@ function Dashboard() {
 
     fetchInitialOrders();
 
-    const ws = new WebSocket('ws://localhost:8000/ws/dashboard');
+    const ws = new WebSocket('ws://localhost:8000/api/v1/ws/dashboard');
 
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
