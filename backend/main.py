@@ -52,8 +52,8 @@ async def websocket_endpoint(websocket: WebSocket):
 
 async def manage_order_status(order: Order):
     # 비동기적으로 상태 변경 작업을 독립적으로 실행
-    asyncio.create_task(update_status_after_delay(order, "조리중", 20))  # 20초 후 "조리중"으로 변경
-    asyncio.create_task(update_status_after_delay(order, "조리완료", 50))  # 50초 후 "조리완료"로 변경
+    asyncio.create_task(update_status_after_delay(order, "조리중", 10))  # 20초 후 "조리중"으로 변경
+    asyncio.create_task(update_status_after_delay(order, "조리완료", 20))  # 50초 후 "조리완료"로 변경
 
 async def update_status_after_delay(order: Order, new_status: str, delay: int):
     # 지연 후 상태 업데이트
