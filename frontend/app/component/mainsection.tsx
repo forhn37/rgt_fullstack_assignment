@@ -19,18 +19,31 @@ interface MainsectionProps {
 export default function Mainsection({ selectedCategory, orderHistory, openModal }: MainsectionProps) {
   const menuItems = {
     chinese: [
-      { name: 'Chinese Food 1', image: '/jjajangmyun.jpg' },
-      { name: 'Chinese Food 2', image: '/jjamppong.jpg' },
+      { name: 'Chinese Food 1', image: '/images/jjajangmyun.jpg' },
+      { name: 'Chinese Food 2', image: '/images/jjamppong.jpg' },
+      { name: 'Chinese Food 3', image: '/images/chinese3.jpg' },
+      { name: 'Chinese Food 4', image: '/images/chinese4.jpg' },
+      { name: 'Chinese Food 5', image: '/images/chinese5.jpg' },
+      { name: 'Chinese Food 6', image: '/images/chinese6.jpg' }
     ],
     italian: [
       { name: 'Italian Food 1', image: '/images/italian1.jpg' },
       { name: 'Italian Food 2', image: '/images/italian2.jpg' },
+      { name: 'Italian Food 3', image: '/images/italian3.jpg' },
+      { name: 'Italian Food 4', image: '/images/italian4.jpg' },
+      { name: 'Italian Food 5', image: '/images/italian5.jpg' },
+      { name: 'Italian Food 6', image: '/images/italian6.jpg' }
     ],
     korean: [
       { name: 'Korean Food 1', image: '/images/korean1.jpg' },
       { name: 'Korean Food 2', image: '/images/korean2.jpg' },
-    ],
-  };
+      { name: 'Korean Food 3', image: '/images/korean3.jpg' },
+      { name: 'Korean Food 4', image: '/images/korean4.jpg' },
+      { name: 'Korean Food 5', image: '/images/korean5.jpg' },
+      { name: 'Korean Food 6', image: '/images/korean6.jpg' }
+    ]
+};
+
 // 주문 내역을 테이블 형식으로 렌더링
   if (selectedCategory === 'orders') {
     // category를 상수선언으로 변경하지 못하도록 설정
