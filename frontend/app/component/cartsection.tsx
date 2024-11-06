@@ -1,5 +1,7 @@
 // app/components/Cartsection.tsx
 import React from 'react';
+import { useState } from 'react';
+import SuccessModal from './successmodal';
 
 interface Order {
   orderNumber: number;
@@ -16,6 +18,8 @@ interface CartsectionProps {
 }
 
 export default function Cartsection({ cartItems, clearCart, onSubmitOrder, updateCartItems }: CartsectionProps) {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const sendOrderToBackend = async () => {
     try {
       // 주문 번호가 업데이트된 데이터를 받아오기
@@ -33,7 +37,7 @@ export default function Cartsection({ cartItems, clearCart, onSubmitOrder, updat
         throw new Error('Failed to send order');
       }
 
-      alert('주문이 성공적으로 전송되었습니다!');
+      setIsModalOpen(true);
       clearCart(); // 장바구니 비우기
     } catch (error) {
       console.error('Error sending order:', error);
@@ -73,6 +77,7 @@ export default function Cartsection({ cartItems, clearCart, onSubmitOrder, updat
       >
         주문 전송
       </button>
+      <SuccessModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
