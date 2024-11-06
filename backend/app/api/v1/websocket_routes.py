@@ -5,7 +5,6 @@ router = APIRouter()
 
 @router.websocket("/ws/dashboard")
 async def websocket_endpoint_route(websocket: WebSocket):
-    await websocket_endpoint(websocket)
     try:
         await websocket_endpoint(websocket)
     except WebSocketDisconnect:
