@@ -18,20 +18,21 @@ interface CartsectionProps {
 export default function Cartsection({ cartItems, clearCart, onSubmitOrder, updateCartItems }: CartsectionProps) {
   const sendOrderToBackend = async () => {
     try {
+      // 주문 번호가 업데이트된 데이터를 받아오기
+      const ordersWithUpdatedNumbers = onSubmitOrder(cartItems);
+
       const response = await fetch('http://localhost:8000/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(cartItems),
+        body: JSON.stringify(ordersWithUpdatedNumbers),
       });
 
       if (!response.ok) {
         throw new Error('Failed to send order');
       }
 
-      // 주문 전송 성공 시 주문 내역을 히스토리에 추가
-      onSubmitOrder(cartItems);
       alert('주문이 성공적으로 전송되었습니다!');
       clearCart(); // 장바구니 비우기
     } catch (error) {
