@@ -11,7 +11,7 @@ function Dashboard() {
   const [updateQueue, setUpdateQueue] = useState<OrderWithStatus[]>([]);
 
   useEffect(() => {
-    // 뒤늦게 대시보드를 열었을 경우에도 기존 데이터를 가져오기
+    // 기존 데이터를 가져오는 함수
     const fetchInitialOrders = async () => {
       try {
         const response = await fetch('http://localhost:8000/api/v1/order');
@@ -28,20 +28,31 @@ function Dashboard() {
 
     fetchInitialOrders();
 
-    const ws = new WebSocket('ws://localhost:8000/api/v1/ws/dashboard');
+    // WebSocket 연결 함수
+    const connectWebSocket = () => {
+      const ws = new WebSocket('ws://localhost:8000/api/v1/ws/dashboard');
 
-    ws.onmessage = (event) => {
-      const message = JSON.parse(event.data);
+      ws.onmessage = (event) => {
+        const message = JSON.parse(event.data);
 
-      if (message.event === 'new_order' || message.event === 'status_update') {
-        // `new_order`와 `status_update` 모두 updateQueue에 추가
-        setUpdateQueue((prevQueue) => [...prevQueue, ...message.data]);
-      }
+        if (message.event === 'new_order' || message.event === 'status_update') {
+          setUpdateQueue((prevQueue) => [...prevQueue, ...message.data]);
+        }
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket 연결이 종료되었습니다. 5초 후 재연결을 시도합니다.');
+        setTimeout(connectWebSocket, 2000); // 5초 후 재연결
+      };
+
+      // ws.onerror = (error) => console.error('WebSocket 오류:', error);
+
+      return ws;
     };
 
-    ws.onclose = () => console.log('WebSocket 연결이 종료되었습니다.');
-    ws.onerror = (error) => console.error('WebSocket 오류:', error);
+    const ws = connectWebSocket();
 
+    // 컴포넌트 언마운트 시 WebSocket 종료
     return () => ws.close();
   }, []);
 
@@ -51,7 +62,6 @@ function Dashboard() {
         setOrders((prevOrders) => {
           const orderMap = new Map(prevOrders.map((order) => [order.orderNumber, order]));
 
-          // Queue에 있는 모든 업데이트 적용
           updateQueue.forEach((updatedOrder) => {
             orderMap.set(updatedOrder.orderNumber, {
               ...orderMap.get(updatedOrder.orderNumber)!,
@@ -59,12 +69,11 @@ function Dashboard() {
             });
           });
 
-          // Queue를 초기화하고 업데이트된 상태를 반환
           setUpdateQueue([]);
           return Array.from(orderMap.values());
         });
       }
-    }, 1000); // 2초마다 업데이트
+    }, 1000); // 1초마다 업데이트
 
     return () => clearInterval(interval);
   }, [updateQueue]);
@@ -75,9 +84,9 @@ function Dashboard() {
 
   return (
     <div className="flex justify-around p-6 space-x-6">
-      {/* 테이블 컴포넌트 (중국 음식 주문) */}
+      {/* 테이블 컴포넌트 */}
       <div className="border border-gray-300 rounded-lg shadow-lg w-1/3">
-        <h3 className="bg-red-500 text-white text-center py-2 rounded-t-lg font-bold">중국 음식 주문</h3>
+        <h3 className="bg-yellow-500 text-white text-center py-2 rounded-t-lg font-bold">중국 음식 주문</h3>
         <table className="w-full">
           <thead>
             <tr className="bg-gray-200">
@@ -100,9 +109,8 @@ function Dashboard() {
         </table>
       </div>
 
-      {/* 다른 카테고리 테이블 (이탈리아 음식, 한식 등) */}
       <div className="border border-gray-300 rounded-lg shadow-lg w-1/3">
-        <h3 className="bg-red-500 text-white text-center py-2 rounded-t-lg font-bold">이탈리아 음식 주문</h3>
+        <h3 className="bg-green-700 text-white text-center py-2 rounded-t-lg font-bold">이탈리아 음식 주문</h3>
         <table className="w-full">
           <thead>
             <tr className="bg-gray-200">
@@ -124,6 +132,7 @@ function Dashboard() {
           </tbody>
         </table>
       </div>
+
       <div className="border border-gray-300 rounded-lg shadow-lg w-1/3">
         <h3 className="bg-red-500 text-white text-center py-2 rounded-t-lg font-bold">한국 음식 주문</h3>
         <table className="w-full">

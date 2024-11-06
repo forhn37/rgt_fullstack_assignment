@@ -93,14 +93,14 @@ export default function Order() {
   };
 
   return (
-    <div className='flex w-4/5'>
-      <div className="w-1/6">
+    <div className='flex justify-center'>
+      <div className="w-1/5 mt-6">
         <Sidebar setSelectedCategory={setSelectedCategory} />
       </div>
-      <div className="w-4/6">
+      <div className="w-1/2">
         <Mainsection selectedCategory={selectedCategory} orderHistory={orderHistory} openModal={openModal} />
       </div>
-      <div className="w-1/6">
+      <div className="w-1/5">
         <Cartsection cartItems={cartItems} clearCart={clearCart} onSubmitOrder={addToHistory} updateCartItems={setCartItems} />
       </div>
       {selectedItem && (

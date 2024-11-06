@@ -54,7 +54,15 @@ export default function Cartsection({ cartItems, clearCart, onSubmitOrder, updat
 
   return (
     <div className="bg-gray-50 p-6 h-full">
-      <h2 className="text-2xl font-bold mb-4">장바구니</h2>
+      <div className='flex justify-around items-center p-5'>
+        <button
+          onClick={sendOrderToBackend}
+          className="p-5 bg-green-500 text-white rounded w-full"
+        >
+          주문 전송
+        </button>
+
+      </div>
       <ul>
         {cartItems.map((item, index) => (
           <li key={index} className="p-2 border-b flex justify-between items-center">
@@ -71,12 +79,6 @@ export default function Cartsection({ cartItems, clearCart, onSubmitOrder, updat
           </li>
         ))}
       </ul>
-      <button
-        onClick={sendOrderToBackend}
-        className="w-full mt-4 py-2 bg-green-500 text-white rounded"
-      >
-        주문 전송
-      </button>
       <SuccessModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
